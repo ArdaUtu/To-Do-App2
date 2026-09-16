@@ -1,17 +1,36 @@
 import { useState } from 'react';
 import AddNoteForm from './components/AddNoteForm';
 import NoteList from './components/NoteList';
-import type { Note } from './types';
+import { deleteNote as removeNote } from './deleteNote';
+import type { Note, NoteType } from './types';
 
 const App = () => {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
+  const [noteType, setNoteType] = useState<NoteType>('text');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const addNote = (note: Note) => {
-    setNotes((currentNotes) => [...currentNotes, note]);
+  const addNote = () => {
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle) {
+      setErrorMessage('Vul eerst een titel in.');
+      return;
+    }
+
+    const baseNote = { id: crypto.randomUUID(), title: trimmedTitle, createdAt: Date.now() };
+    const newNote: Note = noteType === 'checklist'
+      ? { ...baseNote, type: 'checklist', items: [] }
+      : { ...baseNote, type: 'text', body: body.trim() };
+
+    setNotes((currentNotes) => [...currentNotes, newNote]);
+    setTitle('');
+    setBody('');
+    setErrorMessage('');
   };
 
   const deleteNote = (noteId: string) => {
-    setNotes((currentNotes) => currentNotes.filter((note) => note.id !== noteId));
+    setNotes((currentNotes) => removeNote(currentNotes, noteId));
   };
 
   const toggleChecklistItem = (noteId: string, itemId: string) => {
@@ -33,7 +52,16 @@ const App = () => {
       <h1 className='text-center text-white text-3xl'>To-DoApp</h1>
       
       <div className="flex-1 p-5 mb-5 ">
-        <AddNoteForm onAdd={addNote} />
+        <AddNoteForm
+          body={body}
+          errorMessage={errorMessage}
+          noteType={noteType}
+          onAdd={addNote}
+          onBodyChange={setBody}
+          onNoteTypeChange={setNoteType}
+          onTitleChange={setTitle}
+          title={title}
+        />
         <NoteList
           notes={notes}
           onDelete={deleteNote}
