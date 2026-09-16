@@ -1,20 +1,14 @@
-import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import type { InputChangeEvent, InputfieldProps } from './types';
 
-type InvoerveldProps = {
-  waarde: string;
-  setWaarde: Dispatch<SetStateAction<string>>;
-  onEnter: () => void;
-};
-
-function Invoerveld({ waarde, setWaarde, onEnter }: InvoerveldProps) {
-  const veranderWaarde = (event: ChangeEvent<HTMLInputElement>) => {
+function Invoerveld({ waarde, setWaarde, onEnter }: InputfieldProps) {
+  const veranderWaarde = (event: InputChangeEvent) => {
     setWaarde(event.target.value);
   };
 
   return (
     <input
-      aria-label="Nieuwe taak"
-      className="w-full rounded border border-slate-300 px-3 py-2"
+      aria-label="New task"
+      className="w-full rounded border border-slate-400 px-3 py-4 m-3 mx-auto"
       onChange={veranderWaarde}
       onKeyDown={(event) => event.key === 'Enter' && onEnter()}
       placeholder="Voeg een taak toe"
