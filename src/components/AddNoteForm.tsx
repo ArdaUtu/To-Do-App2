@@ -1,60 +1,58 @@
-import { useState } from 'react';
-import type { Note } from '../types';
+import type { AddNoteFormProps, NoteType } from '../types';
 
-type AddNoteFormProps = {
-  onAdd: (note: Note) => void;
-};
-
-type NoteType = Note['type'];
-
-function AddNoteForm({ onAdd }: AddNoteFormProps) {
-  const [title, setTitle] = useState('');
-  const [noteType, setNoteType] = useState<NoteType>('text');
-
-  const submitNote = () => {
-    const trimmedTitle = title.trim();
-    if (!trimmedTitle) return;
-
-    const id = crypto.randomUUID();
-    if (noteType === 'checklist') {
-      onAdd({ id, title: trimmedTitle, createdAt: Date.now(), type: 'checklist', items: [] });
-    } else {
-      onAdd({ id, title: trimmedTitle, createdAt: Date.now(), type: 'text', body: trimmedTitle });
-    }
-
-    setTitle('');
-  };
-
+function AddNoteForm({
+  title,
+  body,
+  noteType,
+  errorMessage,
+  onTitleChange,
+  onBodyChange,
+  onNoteTypeChange,
+  onAdd,
+}: AddNoteFormProps) {
   return (
     <form
       className="mb-6 flex flex-col gap-3 sm:flex-row"
       onSubmit={(event) => {
         event.preventDefault();
-        submitNote();
+        onAdd();
       }}
     >
       <input
-        aria-label="Notitietitel"
-        className="w-full rounded border border-slate-400 px-3 py-3"
-        onChange={(event) => setTitle(event.target.value)}
-        placeholder="Titel van je notitie"
+        aria-label="Note title"
+        className="w-full rounded border border-slate-400 px-3 py-5"
+        onChange={(event) => onTitleChange(event.target.value)}
+        placeholder={noteType === 'checklist' ? 'Description of your checklist' : 'Title of your note'}
         type="text"
         value={title}
       />
+      {noteType === 'text' && (
+        <textarea
+          aria-label="Text of the note"
+          className="w-full rounded border border-slate-400 px-3 py-5"
+          onChange={(event) => onBodyChange(event.target.value)}
+          placeholder="Write your note"
+          rows={1}
+          value={body}
+        />
+      )}
       <select
-        aria-label="Notitietype"
+        aria-label="Note type"
         className="rounded border border-slate-400 bg-white px-3 py-3"
-        onChange={(event) => setNoteType(event.target.value as NoteType)}
+        onChange={(event) => onNoteTypeChange(event.target.value as NoteType)}
         value={noteType}
       >
-        <option value="text">Tekstnotitie</option>
+        <option value="text">Text note</option>
         <option value="checklist">Checklist</option>
       </select>
+      {errorMessage && (
+        <p className="text-sm font-semibold text-red-700" role="alert">{errorMessage}</p>
+      )}
       <button
-        className="rounded bg-blue-400 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+        className="rounded bg-blue-400 px-4 py-3 font-semibold text-white hover:bg-blue-700"
         type="submit"
       >
-        Toevoegen
+        Add
       </button>
     </form>
   );

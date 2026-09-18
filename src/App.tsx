@@ -12,12 +12,19 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const addNote = () => {
-    const trimmedTitle = title.trim();
-    if (!trimmedTitle) {
-      setErrorMessage('Vul eerst een titel in.');
-      return;
-    }
+  const trimmedTitle = title.trim();
+  const trimmedBody = body.trim();
 
+  if (!trimmedTitle) {
+    setErrorMessage('Vul eerst een titel in.');
+    return;
+  }
+
+  if (noteType === 'text' && !trimmedBody) {
+    setErrorMessage('Vul eerst je note in.');
+    return;
+  }
+  
     const baseNote = { id: crypto.randomUUID(), title: trimmedTitle, createdAt: Date.now() };
     const newNote: Note = noteType === 'checklist'
       ? { ...baseNote, type: 'checklist', items: [] }

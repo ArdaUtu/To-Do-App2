@@ -1,9 +1,4 @@
-import type { ChecklistItem } from '../types';
-
-type ChecklistItemRowProps = {
-  item: ChecklistItem;
-  onToggle: () => void;
-};
+import type { ChecklistItemRowProps } from '../types';
 
 function ChecklistItemRow({ item, onToggle }: ChecklistItemRowProps) {
   return (

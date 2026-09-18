@@ -1,24 +1,20 @@
-import type { TextNote } from '../types';
-
-type TextNoteCardProps = {
-  note: TextNote;
-  onDelete: (noteId: string) => void;
-};
+import type { TextNoteCardProps } from '../types';
 
 function TextNoteCard({ note, onDelete }: TextNoteCardProps) {
   return (
-    <article className="flex items-center border border-slate-200 bg-white p-4">
+    <article className="flex items-center border-l-4 border-blue-500 bg-blue-50 p-4">
       <div>
-        <h2 className="font-semibold">{note.title}</h2>
-        <p className="text-slate-600">{note.body}</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Tekstnotitie</p>
+        <h2 className="font-semibold text-black">{note.body}</h2>
+        <p className="text-black">{note.title}</p>
       </div>
       <button
         aria-label={`Verwijder ${note.title}`}
-        className="ml-auto bg-blue-400 p-3 text-white hover:bg-blue-700"
+        className="ml-auto rounded bg-blue-400 p-3 text-white hover:bg-blue-700 transform transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
         onClick={() => onDelete(note.id)}
         type="button"
       >
-        Verwijderen
+        Delete
       </button>
     </article>
   );

@@ -1,19 +1,14 @@
 import NoteCard from './NoteCard';
-import type { Note } from '../types';
-
-type NoteListProps = {
-  notes: Note[];
-  onDelete: (noteId: string) => void;
-  onToggleItem: (noteId: string, itemId: string) => void;
-};
+import type { NoteListProps } from '../types';
 
 function NoteList({ notes, onDelete, onToggleItem }: NoteListProps) {
   if (notes.length === 0) {
-    return <p className="text-center text-slate-500">Nog geen notities.</p>;
+    return <p className="text-center text-slate-500">No notes yet.</p>;
   }
 
   return (
-    <ul className="w-full space-y-3">
+    <ul className="w-full space-y-7
+    ">
       {notes.map((note) => (
         <li key={note.id}>
           <NoteCard
