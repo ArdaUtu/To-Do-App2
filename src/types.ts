@@ -1,5 +1,3 @@
-import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
-
 export type NoteBase = {
 	id: string;
 	title: string;
