@@ -20,7 +20,7 @@ function AddNoteForm({
     >
       <input
         aria-label="Note title"
-        className="w-full rounded border border-slate-400 px-3 py-5"
+        className="w-full rounded border  border-slate-400 bg-white px-3 py-5"
         onChange={(event) => onTitleChange(event.target.value)}
         placeholder={noteType === 'checklist' ? 'Description of your checklist' : 'Title of your note'}
         type="text"
@@ -29,7 +29,7 @@ function AddNoteForm({
       {noteType === 'text' && (
         <textarea
           aria-label="Text of the note"
-          className="w-full rounded border border-slate-400 px-3 py-5"
+          className="w-full rounded border  border-slate-400 bg-white px-3 py-5"
           onChange={(event) => onBodyChange(event.target.value)}
           placeholder="Write your note"
           rows={1}
