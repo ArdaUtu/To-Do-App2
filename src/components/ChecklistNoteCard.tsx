@@ -1,9 +1,9 @@
 import ChecklistItemRow from './ChecklistItemRow';
 import type { ChecklistNoteCardProps } from '../types';
-const dateString: string = new Date().toLocaleString('nl-NL')
 
 function ChecklistNoteCard({ note, onDelete, onToggleItem }: ChecklistNoteCardProps) {
   const description = note.description.trim();
+  const dateString = new Date(note.createdAt).toLocaleString('nl-NL');
 
   return (
     <article className="border-l-4 border-emerald-500 bg-emerald-50 p-4">

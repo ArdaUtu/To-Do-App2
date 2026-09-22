@@ -1,8 +1,8 @@
 import type { TextNoteCardProps } from '../types';
 
-const dateString: string = new Date().toLocaleString('nl-NL')
-
 function TextNoteCard({ note, onDelete }: TextNoteCardProps) {
+  const dateString = new Date(note.createdAt).toLocaleString('nl-NL');
+
   return (
     <article className="flex items-center border-l-4 border-blue-500 bg-blue-50 p-4">
       <div>
