@@ -1,13 +1,15 @@
 import ChecklistItemRow from './ChecklistItemRow';
 import type { ChecklistNoteCardProps } from '../types';
+const dateString: string = new Date().toLocaleString('nl-NL')
 
 function ChecklistNoteCard({ note, onDelete, onToggleItem }: ChecklistNoteCardProps) {
+  const description = note.description.trim();
+
   return (
     <article className="border-l-4 border-emerald-500 bg-emerald-50 p-4">
       <div className="flex items-center">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Checklist</p>
-          <h2 className="font-semibold text-slate-900">{note.title}</h2>
         </div>
         <button
           aria-label={`Verwijder ${note.title}`}
@@ -18,6 +20,14 @@ function ChecklistNoteCard({ note, onDelete, onToggleItem }: ChecklistNoteCardPr
           Delete
         </button>
       </div>
+      {description && (
+        description.includes('\n') ? (
+          <p className="mt-1 whitespace-pre-wrap text-sm text-slate-600">{description} </p>
+        ) : (
+          <p className="mt-1 text-sm text-slate-600">{description}</p>
+        )
+      )}
+      <p className="">{dateString}</p>
       <ul className="mt-3 space-y-2">
         {note.items.map((item) => (
           <ChecklistItemRow
@@ -28,7 +38,7 @@ function ChecklistNoteCard({ note, onDelete, onToggleItem }: ChecklistNoteCardPr
         ))}
       </ul>
       {note.items.length === 0 && (
-        <p className="mt-3 text-slate-500">Nog geen checklistitems.</p>
+        <p className="mt-3 text-slate-500">No checklist items yet.</p>
       )}
     </article>
   );
