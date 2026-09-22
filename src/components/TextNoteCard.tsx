@@ -1,12 +1,15 @@
 import type { TextNoteCardProps } from '../types';
 
+const dateString: string = new Date().toLocaleString('nl-NL')
+
 function TextNoteCard({ note, onDelete }: TextNoteCardProps) {
   return (
     <article className="flex items-center border-l-4 border-blue-500 bg-blue-50 p-4">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Tekstnotitie</p>
-        <h2 className="font-semibold text-black">{note.body}</h2>
+        <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Text note</p>
         <p className="text-black">{note.title}</p>
+        <p className="whitespace-pre-wrap font-semibold text-black">{note.body}</p>
+        <p>{dateString}</p>
       </div>
       <button
         aria-label={`Verwijder ${note.title}`}
