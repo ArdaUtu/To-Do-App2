@@ -72,7 +72,7 @@ function AddNoteForm({
         <option value="checklist">Checklist</option>
       </select>
       <button
-        className="rounded bg-blue-400 px-4 py-3 font-semibold text-white hover:bg-blue-700"
+        className="rounded bg-blue-400 px-4 py-3 font-semibold text-white hover:bg-blue-700 transform transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
         type="submit"
       >
         Add
