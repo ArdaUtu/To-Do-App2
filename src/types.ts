@@ -1,7 +1,7 @@
 export type NoteBase = {
 	id: string;
 	title: string;
-	createdAt: number;
+	createdAt: Date;
 };
 
 export type TextNote = NoteBase & {
@@ -17,6 +17,7 @@ export type ChecklistItem = {
 
 export type ChecklistNote = NoteBase & {
 	type: "checklist";
+	description: string;
 	items: ChecklistItem[];
 };
 
@@ -27,10 +28,12 @@ export type NoteType = Note['type'];
 export type AddNoteFormProps = {
 	title: string;
 	body: string;
+	description: string;
 	noteType: NoteType;
 	errorMessage: string;
 	onTitleChange: (title: string) => void;
 	onBodyChange: (body: string) => void;
+	onDescriptionChange: (description: string) => void;
 	onNoteTypeChange: (noteType: NoteType) => void;
 	onAdd: () => void;
 };
