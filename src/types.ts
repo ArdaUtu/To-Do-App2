@@ -41,12 +41,14 @@ export type AddNoteFormProps = {
 export type NoteListProps = {
 	notes: Note[];
 	onDelete: (noteId: string) => void;
+	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
 };
 
 export type NoteCardProps = {
 	note: Note;
 	onDelete: (noteId: string) => void;
+	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
 };
 
@@ -58,6 +60,7 @@ export type TextNoteCardProps = {
 export type ChecklistNoteCardProps = {
 	note: ChecklistNote;
 	onDelete: (noteId: string) => void;
+	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
 };
 
