@@ -58,6 +58,23 @@ const nodeFunctions = () => {
     setNotes((currentNotes) => removeNote(currentNotes, noteId));
   };
 
+  const addChecklistItem = (noteId: string, text: string) => {
+    const trimmedText = text.trim();
+    if (!trimmedText) return;
+
+    setNotes((currentNotes) => currentNotes.map((note) => {
+      if (note.id !== noteId || note.type !== 'checklist') return note;
+
+      return {
+        ...note,
+        items: [
+          ...note.items,
+          { id: crypto.randomUUID(), text: trimmedText, done: false },
+        ],
+      };
+    }));
+  };
+
   const toggleChecklistItem = (noteId: string, itemId: string) => {
     setNotes((currentNotes) => currentNotes.map((note) => {
       if (note.id !== noteId || note.type !== 'checklist') return note;
@@ -71,10 +88,21 @@ const nodeFunctions = () => {
     }));
   };
 
+  const deleteChecklistItem = (noteId: string, itemId: string) => {
+    setNotes((currentNotes) => currentNotes.map((note) => {
+      if (note.id !== noteId || note.type !== 'checklist') return note;
+
+      return {
+        ...note,
+        items: note.items.filter((item) => item.id !== itemId),
+      };
+    }));
+  };
+
   return (
     <div className="text-black bg-gradient-to-r from-[rgba(42,123,155,1)] from-0% via-[rgba(87,199,133,1)] via-50% to-[rgba(237,221,83,1)] to-100% min-w-45 p-8 min-h-screen w-full">
       <section className='bg-gradient-to-b from-[#70a5b9] to-white border-[#1d5b74] border-2 p-5'>
-      <h1 className='text-center text-white text-3xl'>To-DoApp</h1>
+      <h1 className='text-center text-white text-3xl'>To-Do-App</h1>
       
       <div className="flex-1 p-5 mb-5 ">
         <AddNoteForm
@@ -91,7 +119,9 @@ const nodeFunctions = () => {
         />
         <NoteList
           notes={notes}
+          onAddItem={addChecklistItem}
           onDelete={deleteNote}
+          onDeleteItem={deleteChecklistItem}
           onToggleItem={toggleChecklistItem}
         />
       </div>

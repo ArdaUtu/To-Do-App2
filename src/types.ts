@@ -43,6 +43,7 @@ export type NoteListProps = {
 	onDelete: (noteId: string) => void;
 	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
+	onDeleteItem: (noteId: string, itemId: string) => void;
 };
 
 export type NoteCardProps = {
@@ -50,6 +51,7 @@ export type NoteCardProps = {
 	onDelete: (noteId: string) => void;
 	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
+	onDeleteItem: (noteId: string, itemId: string) => void;
 };
 
 export type TextNoteCardProps = {
@@ -62,9 +64,11 @@ export type ChecklistNoteCardProps = {
 	onDelete: (noteId: string) => void;
 	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
+	onDeleteItem: (noteId: string, itemId: string) => void;
 };
 
 export type ChecklistItemRowProps = {
 	item: ChecklistItem;
 	onToggle: () => void;
+	onDelete: () => void;
 };
