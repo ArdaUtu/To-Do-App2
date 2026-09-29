@@ -42,10 +42,10 @@ function AddNoteForm({
 
       {noteType === 'checklist' && (
         <textarea
-          aria-label="Description of checklist"
+          aria-label="Title checklist"
           className="w-full rounded border border-slate-400 bg-white px-3 py-5"
           onChange={(event) => onDescriptionChange(event.target.value)}
-          placeholder="Description of your checklist"
+          placeholder="Title of your checklist"
           rows={3}
           value={description}
         />
