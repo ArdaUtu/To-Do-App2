@@ -58,6 +58,18 @@ const nodeFunctions = () => {
     setNotes((currentNotes) => removeNote(currentNotes, noteId));
   };
 
+  const updateNote = (noteId: string, updates: { title: string; body?: string }) => {
+    setNotes((currentNotes) => currentNotes.map((note) => {
+      if (note.id !== noteId) return note;
+
+      if (note.type === 'text') {
+        return { ...note, title: updates.title, body: updates.body ?? '' };
+      }
+
+      return { ...note, title: updates.title };
+    }));
+  };
+
   const addChecklistItem = (noteId: string, text: string) => {
     const trimmedText = text.trim();
     if (!trimmedText) return;
@@ -99,6 +111,19 @@ const nodeFunctions = () => {
     }));
   };
 
+  const editChecklistItem = (noteId: string, itemId: string, text: string) => {
+    setNotes((currentNotes) => currentNotes.map((note) => {
+      if (note.id !== noteId || note.type !== 'checklist') return note;
+
+      return {
+        ...note,
+        items: note.items.map((item) => (
+          item.id === itemId ? { ...item, text } : item
+        )),
+      };
+    }));
+  };
+
   return (
     <div className="text-black bg-gradient-to-r from-[rgba(42,123,155,1)] from-0% via-[rgba(87,199,133,1)] via-50% to-[rgba(237,221,83,1)] to-100% min-w-45 p-8 min-h-screen w-full">
       <section className='bg-gradient-to-b from-[#70a5b9] to-white border-[#1d5b74] border-2 p-5'>
@@ -122,7 +147,9 @@ const nodeFunctions = () => {
           onAddItem={addChecklistItem}
           onDelete={deleteNote}
           onDeleteItem={deleteChecklistItem}
+          onEditItem={editChecklistItem}
           onToggleItem={toggleChecklistItem}
+          onUpdateNote={updateNote}
         />
       </div>
       </section>

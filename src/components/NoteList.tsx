@@ -1,7 +1,7 @@
 import NoteCard from './NoteCard';
 import type { NoteListProps } from '../types';
 
-function NoteList({ notes, onAddItem, onDelete, onToggleItem, onDeleteItem }: NoteListProps) {
+function NoteList({ notes, onAddItem, onDelete, onToggleItem, onDeleteItem, onEditItem, onUpdateNote }: NoteListProps) {
   if (notes.length === 0) {
     return <p className="text-center text-slate-500">No notes yet.</p>;
   }
@@ -16,7 +16,9 @@ function NoteList({ notes, onAddItem, onDelete, onToggleItem, onDeleteItem }: No
             onAddItem={onAddItem}
             onDelete={onDelete}
             onDeleteItem={onDeleteItem}
+            onEditItem={onEditItem}
             onToggleItem={onToggleItem}
+            onUpdateNote={onUpdateNote}
           />
         </li>
       ))}

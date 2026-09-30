@@ -2,8 +2,10 @@ import { useState } from 'react';
 import ChecklistItemRow from './ChecklistItemRow';
 import type { ChecklistNoteCardProps } from '../types';
 
-function ChecklistNoteCard({ note, onAddItem, onDelete, onToggleItem, onDeleteItem }: ChecklistNoteCardProps) {
+function ChecklistNoteCard({ note, onAddItem, onDelete, onToggleItem, onDeleteItem, onEditItem, onUpdate }: ChecklistNoteCardProps) {
   const [itemText, setItemText] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState('');
   const description = note.description.trim();
   const dateString = new Date(note.createdAt).toLocaleString('nl-NL');
   const completedItems = note.items.filter((item) => item.done).length;
@@ -14,12 +16,32 @@ function ChecklistNoteCard({ note, onAddItem, onDelete, onToggleItem, onDeleteIt
     setItemText('');
   };
 
+  const startEditing = () => {
+    setTitle(note.title ?? '');
+    setIsEditing(true);
+  };
+
+  const saveChanges = () => {
+    onUpdate(note.id, { title });
+    setIsEditing(false);
+  };
+
   return (
     <article className="border-l-4 border-emerald-500 bg-emerald-50 p-4">
       <div className="flex items-center">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Checklist</p>
+          {isEditing ? (
+            <div>
+              <input aria-label="Titel checklist" onChange={(event) => setTitle(event.target.value)} type="text" value={title} />
+              <button onClick={saveChanges} type="button">Opslaan</button>
+              <button onClick={() => setIsEditing(false)} type="button">Annuleren</button>
+            </div>
+          ) : (
+            <p>{note.title}</p>
+          )}
         </div>
+        {!isEditing && <button onClick={startEditing} type="button">Bewerken</button>}
         <button
           aria-label={`Verwijder ${note.title}`}
           className="ml-auto rounded bg-blue-400 p-3 text-white hover:bg-blue-700 transform transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
@@ -82,6 +104,7 @@ function ChecklistNoteCard({ note, onAddItem, onDelete, onToggleItem, onDeleteIt
             item={item}
             key={item.id}
             onDelete={() => onDeleteItem(note.id, item.id)}
+            onEdit={(text) => onEditItem(note.id, item.id, text)}
             onToggle={() => onToggleItem(note.id, item.id)}
           />
         ))}

@@ -41,34 +41,42 @@ export type AddNoteFormProps = {
 export type NoteListProps = {
 	notes: Note[];
 	onDelete: (noteId: string) => void;
+	onUpdateNote: (noteId: string, updates: { title: string; body?: string }) => void;
 	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
 	onDeleteItem: (noteId: string, itemId: string) => void;
+	onEditItem: (noteId: string, itemId: string, text: string) => void;
 };
 
 export type NoteCardProps = {
 	note: Note;
 	onDelete: (noteId: string) => void;
+	onUpdateNote: (noteId: string, updates: { title: string; body?: string }) => void;
 	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
 	onDeleteItem: (noteId: string, itemId: string) => void;
+	onEditItem: (noteId: string, itemId: string, text: string) => void;
 };
 
 export type TextNoteCardProps = {
 	note: TextNote;
 	onDelete: (noteId: string) => void;
+	onUpdate: (noteId: string, updates: { title: string; body: string }) => void;
 };
 
 export type ChecklistNoteCardProps = {
 	note: ChecklistNote;
 	onDelete: (noteId: string) => void;
+	onUpdate: (noteId: string, updates: { title: string }) => void;
 	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
 	onDeleteItem: (noteId: string, itemId: string) => void;
+	onEditItem: (noteId: string, itemId: string, text: string) => void;
 };
 
 export type ChecklistItemRowProps = {
 	item: ChecklistItem;
 	onToggle: () => void;
 	onDelete: () => void;
+	onEdit: (text: string) => void;
 };
