@@ -28,14 +28,12 @@ const nodeFunctions = () => {
       return;
     }
 
-    if (noteType === 'checklist' && !trimmedDescription) {
-      setErrorMessage('Enter a description first.');
+    if (noteType === 'checklist' && !trimmedTitle) {
+      setErrorMessage('Enter a checklist title first.');
       return;
     }
 
-    const finalTitle = noteType === 'checklist'
-      ? 'Checklist'
-      : trimmedTitle;
+    const finalTitle = trimmedTitle;
 
     const baseNote = {
       id: crypto.randomUUID(),
@@ -125,11 +123,11 @@ const nodeFunctions = () => {
   };
 
   return (
-    <div className="text-black bg-gradient-to-r from-[rgba(42,123,155,1)] from-0% via-[rgba(87,199,133,1)] via-50% to-[rgba(237,221,83,1)] to-100% min-w-45 p-8 min-h-screen w-full">
-      <section className='bg-gradient-to-b from-[#70a5b9] to-white border-[#1d5b74] border-2 p-5'>
-      <h1 className='text-center text-white text-3xl'>To-Do-App</h1>
+    <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100 via-slate-50 to-lime-50 p-4 text-slate-800 sm:p-8">
+      <section className="mx-auto min-h-[calc(100vh-2rem)] max-w-5xl rounded-2xl border border-white/80 bg-white/90 p-5 shadow-xl shadow-emerald-950/10 backdrop-blur sm:min-h-[calc(100vh-4rem)] sm:p-10">
+      <h1 className="mb-8 text-center text-4xl font-extrabold tracking-tight text-emerald-900 sm:mb-10 sm:text-5xl">To-Do-App</h1>
       
-      <div className="flex-1 p-5 mb-5 ">
+      <div className="mx-auto max-w-4xl">
         <AddNoteForm
           body={body}
           description={description}
