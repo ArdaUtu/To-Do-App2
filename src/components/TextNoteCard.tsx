@@ -34,8 +34,8 @@ function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
           </div>
         ) : (
           <>
-            <p className="break-words text-lg font-bold text-slate-900">{note.title}</p>
-              <p className="whitespace-pre-wrap break-words text-sm leading-6 text-slate-600">{note.body}</p>
+            <p className="wrap-anywhere text-lg font-bold text-slate-900">{note.title}</p>
+              <p className="whitespace-pre-wrap wrap-anywhere text-sm leading-6 text-slate-600">{note.body}</p>
           </>
         )}
         <p className="mt-4 text-xs text-slate-400">{dateString}</p>

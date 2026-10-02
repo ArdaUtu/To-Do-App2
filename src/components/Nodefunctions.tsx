@@ -5,7 +5,7 @@ import { deleteNote as removeNote } from '../deleteNote';
 import type { Note, NoteType } from '../types';
 
 
-const NodeFunctions = () => {
+const nodeFunctions = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
@@ -123,7 +123,7 @@ const NodeFunctions = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100 via-slate-50 to-lime-50 p-4 text-slate-800 sm:p-8">
+    <div className="min-h-screen w-full from-emerald-100 via-slate-50 to-lime-50 p-4 text-slate-800 sm:p-8">
       <section className="mx-auto min-h-[calc(100vh-2rem)] max-w-5xl rounded-2xl border border-white/80 bg-white/90 p-5 shadow-xl shadow-emerald-950/10 backdrop-blur sm:min-h-[calc(100vh-4rem)] sm:p-10">
       <h1 className="mb-8 text-center text-4xl font-extrabold tracking-tight text-emerald-900 sm:mb-10 sm:text-5xl">To-Do-App</h1>
       
@@ -155,4 +155,4 @@ const NodeFunctions = () => {
   );
 };
 
-export default NodeFunctions;
+export default nodeFunctions;
