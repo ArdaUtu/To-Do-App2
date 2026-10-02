@@ -5,7 +5,7 @@ import { deleteNote as removeNote } from '../deleteNote';
 import type { Note, NoteType } from '../types';
 
 
-const nodeFunctions = () => {
+const NodeFunctions = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
@@ -38,7 +38,7 @@ const nodeFunctions = () => {
     const baseNote = {
       id: crypto.randomUUID(),
       title: finalTitle,
-      createdAt: Date.now(),
+      createdAt: new Date(),
     };
 
     const newNote: Note = noteType === 'checklist'
@@ -155,4 +155,4 @@ const nodeFunctions = () => {
   );
 };
 
-export default nodeFunctions;
+export default NodeFunctions;

@@ -52,6 +52,17 @@ function AddNoteForm({
         />
       )}
 
+      {noteType === 'checklist' && (
+        <textarea
+          aria-label="Checklist description"
+          className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 sm:col-span-2"
+          onChange={(event) => onDescriptionChange(event.target.value)}
+          placeholder="Description (optional)"
+          rows={2}
+          value={description}
+        />
+      )}
+
       {noteType === 'text' && (
         <textarea
           aria-label="Text of the note"
