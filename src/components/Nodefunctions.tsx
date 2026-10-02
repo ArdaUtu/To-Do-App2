@@ -5,7 +5,7 @@ import { deleteNote as removeNote } from '../deleteNote';
 import type { Note, NoteType } from '../types';
 
 
-const nodeFunctions = () => {
+const NodeFunctions = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
@@ -56,7 +56,7 @@ const nodeFunctions = () => {
     setNotes((currentNotes) => removeNote(currentNotes, noteId));
   };
 
-  const updateNote = (noteId: string, updates: { title: string; body?: string }) => {
+  const updateNote = (noteId: string, updates: { title: string; body?: string; description?: string }) => {
     setNotes((currentNotes) => currentNotes.map((note) => {
       if (note.id !== noteId) return note;
 
@@ -64,7 +64,7 @@ const nodeFunctions = () => {
         return { ...note, title: updates.title, body: updates.body ?? '' };
       }
 
-      return { ...note, title: updates.title };
+      return { ...note, title: updates.title, description: updates.description ?? note.description };
     }));
   };
 
@@ -155,4 +155,4 @@ const nodeFunctions = () => {
   );
 };
 
-export default nodeFunctions;
+export default NodeFunctions;

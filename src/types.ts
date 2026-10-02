@@ -41,7 +41,7 @@ export type AddNoteFormProps = {
 export type NoteListProps = {
 	notes: Note[];
 	onDelete: (noteId: string) => void;
-	onUpdateNote: (noteId: string, updates: { title: string; body?: string }) => void;
+	onUpdateNote: (noteId: string, updates: { title: string; body?: string; description?: string }) => void;
 	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
 	onDeleteItem: (noteId: string, itemId: string) => void;
@@ -51,7 +51,7 @@ export type NoteListProps = {
 export type NoteCardProps = {
 	note: Note;
 	onDelete: (noteId: string) => void;
-	onUpdateNote: (noteId: string, updates: { title: string; body?: string }) => void;
+	onUpdateNote: (noteId: string, updates: { title: string; body?: string; description?: string }) => void;
 	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
 	onDeleteItem: (noteId: string, itemId: string) => void;
@@ -67,7 +67,7 @@ export type TextNoteCardProps = {
 export type ChecklistNoteCardProps = {
 	note: ChecklistNote;
 	onDelete: (noteId: string) => void;
-	onUpdate: (noteId: string, updates: { title: string }) => void;
+	onUpdate: (noteId: string, updates: { title: string; description: string }) => void;
 	onAddItem: (noteId: string, text: string) => void;
 	onToggleItem: (noteId: string, itemId: string) => void;
 	onDeleteItem: (noteId: string, itemId: string) => void;
