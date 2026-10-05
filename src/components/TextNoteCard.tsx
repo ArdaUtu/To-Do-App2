@@ -24,10 +24,23 @@ function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
       <div className="min-w-0 flex-1">
         <p className="mb-2 text-xs font-bold uppercase tracking-widest text-emerald-700">Text note</p>
         {isEditing ? (
-          <div>
-            <input aria-label="Titel notitie" onChange={(event) => setTitle(event.target.value)} type="text" value={title} />
-            <textarea aria-label="Tekst notitie" onChange={(event) => setBody(event.target.value)} rows={3} value={body} />
-            <div className="mt-3 flex flex-row items-center gap-2">
+          <div className="flex flex-col gap-3"> 
+           <input
+             aria-label="Titel notitie"
+             className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100" 
+             onChange={(event) => setTitle(event.target.value)}
+             type="text"
+             value={title}
+           />
+
+            <textarea
+              aria-label="Tekst notitie"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100" 
+              onChange={(event) => setBody(event.target.value)}
+              rows={3}
+              value={body}
+            />
+            <div className="mt-1 flex flex-row items-center gap-2">
               <button className="rounded-lg bg-emerald-800 px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-200" onClick={saveChanges} type="button">Save</button>
               <button className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-200" onClick={() => setIsEditing(false)} type="button">Cancel</button>
             </div>
