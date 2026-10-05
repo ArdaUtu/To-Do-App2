@@ -1,6 +1,13 @@
 import { useState } from "react";
 import TrashIcon from "../images/Trash.png";
-import type { ChecklistItemRowProps } from "../types";
+import type { ChecklistItem } from "../types";
+
+interface ChecklistItemRowProps {
+  item: ChecklistItem;
+  onToggle: () => void;
+  onDelete: () => void;
+  onEdit: (text: string) => void;
+}
 
 function ChecklistItemRow({
   item,
@@ -10,14 +17,22 @@ function ChecklistItemRow({
 }: ChecklistItemRowProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const startEditing = () => {
-    setText(item.text ?? "");
+    setText(item.text);
+    setErrorMessage("");
     setIsEditing(true);
   };
 
   const saveChanges = () => {
-    onEdit(text);
+    const trimmedText = text.trim();
+    if (!trimmedText) {
+      setErrorMessage("Enter checklist item text first.");
+      return;
+    }
+
+    onEdit(trimmedText);
     setIsEditing(false);
   };
 
@@ -25,13 +40,15 @@ function ChecklistItemRow({
     <li
       className={`flex flex-wrap items-center gap-3 py-2 ${isEditing ? "items-start" : ""}`}
     >
-      {/* een checkbox van 16px is lastig te raken op een telefoon. Zet hem in een <label> met padding (bijv. p-3) voor een raakvlak van 44px. */}
-      <input
-        className="size-4 shrink-0 accent-emerald-700"
-        checked={item.done}
-        onChange={onToggle}
-        type="checkbox"
-      />
+      <label className="flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center p-3">
+        <input
+          aria-label={`Mark ${item.text} ${item.done ? "incomplete" : "complete"}`}
+          className="size-4 accent-emerald-700"
+          checked={item.done}
+          onChange={onToggle}
+          type="checkbox"
+        />
+      </label>
       {isEditing ? (
         <form
           className="flex min-w-0 flex-1 flex-wrap items-center gap-2"
@@ -42,20 +59,32 @@ function ChecklistItemRow({
         >
           <input
             className="min-w-0 flex-1 basis-40 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
-            aria-label="Checklist-itemtekst"
-            onChange={(event) => setText(event.target.value)}
+            aria-label="Checklist item text"
+            onChange={(event) => {
+              setText(event.target.value);
+              setErrorMessage("");
+            }}
             type="text"
             value={text}
           />
+          {errorMessage && (
+            <p className="w-full text-sm font-semibold text-rose-700" role="alert">
+              {errorMessage}
+            </p>
+          )}
           <button
-            className="rounded-lg bg-emerald-800 px-3 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-200"
+            className="min-h-11 min-w-11 rounded-lg bg-emerald-800 px-3 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-200"
             type="submit"
           >
             Save
           </button>
           <button
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-200"
-            onClick={() => setIsEditing(false)}
+            className="min-h-11 min-w-11 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-200"
+            onClick={() => {
+              setText(item.text);
+              setErrorMessage("");
+              setIsEditing(false);
+            }}
             type="button"
           >
             Cancel
@@ -70,19 +99,18 @@ function ChecklistItemRow({
             {item.text}
           </span>
           <button
-            className="rounded-lg border border-emerald-200 bg-white px-3 py-2 text-xs font-semibold text-emerald-800 transition hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100"
-            aria-label={`Bewerk checklist-item ${item.text}`}
+            className="min-h-11 min-w-11 rounded-lg border border-emerald-200 bg-white px-3 py-2 text-xs font-semibold text-emerald-800 transition hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100"
+            aria-label={`Edit checklist item ${item.text}`}
             onClick={startEditing}
             type="button"
           >
-            Change
+            Edit
           </button>
         </>
       )}
-      {/* knoppen met text-xs py-2 zijn ~32px hoog. Gebruik min-h-11 (44px) op elke knop voor Fase 6. Heb je wel een text bij de icon nodig? Of is icon wel al genoeg? Denk er over na. Het is een suggestie */}
       <button
-        aria-label={`Verwijder checklist-item ${item.text}`}
-        className="rounded-lg bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-100"
+        aria-label={`Delete checklist item ${item.text}`}
+        className="min-h-11 min-w-11 rounded-lg bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-100"
         onClick={onDelete}
         type="button"
       >

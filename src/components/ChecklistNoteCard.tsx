@@ -1,10 +1,20 @@
 import { useState } from "react";
-import PlusIcon from "../images/Plus.png";
 import TrashIcon from "../images/Trash.png";
-import type { ChecklistNoteCardProps } from "../types";
-import ChecklistItemRow from "./ChecklistItemRow";
+import type { ChecklistNote, NoteUpdate } from "../types";
+import ChecklistEditForm from "./ChecklistEditForm";
+import ChecklistItemForm from "./ChecklistItemForm";
+import ChecklistProgress from "./ChecklistProgress";
 
-// FIX: ~148 (~200 na reformatting) regels, boven de grens van ~100. Splits bijv. AddItemForm en ChecklistProgress af (elk in een eigen bestand met eigen props).
+interface ChecklistNoteCardProps {
+  note: ChecklistNote;
+  onAddItem: (noteId: string, text: string) => void;
+  onDelete: (noteId: string) => void;
+  onToggleItem: (noteId: string, itemId: string) => void;
+  onDeleteItem: (noteId: string, itemId: string) => void;
+  onEditItem: (noteId: string, itemId: string, text: string) => void;
+  onUpdate: (noteId: string, updates: NoteUpdate) => void;
+}
+
 function ChecklistNoteCard({
   note,
   onAddItem,
@@ -14,24 +24,12 @@ function ChecklistNoteCard({
   onEditItem,
   onUpdate,
 }: ChecklistNoteCardProps) {
-  const [itemText, setItemText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState(note.title);
-  const [description, setDescription] = useState(note.description);
   const displayDescription = note.description.trim();
   const dateString = new Date(note.createdAt).toLocaleString("nl-NL");
-  const completedItems = note.items.filter((item) => item.done).length;
 
-  const addItem = () => {
-    if (!itemText.trim()) return;
-    onAddItem(note.id, itemText);
-    setItemText("");
-  };
-
-  const saveChanges = () => {
-    const trimmedTitle = title.trim();
-    if (!trimmedTitle) return;
-    onUpdate(note.id, { title: trimmedTitle, description: description.trim() });
+  const saveChanges = (title: string, description: string) => {
+    onUpdate(note.id, { title, description });
     setIsEditing(false);
   };
 
@@ -43,75 +41,30 @@ function ChecklistNoteCard({
             Checklist
           </p>
           {isEditing ? (
-            <form
-              className="w-full"
-              onSubmit={(event) => {
-                event.preventDefault();
-                saveChanges();
-              }}
-            >
-              <div className="flex flex-col gap-3">
-                <input
-                  aria-label="Titel checklist"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
-                  onChange={(event) => setTitle(event.target.value)}
-                  type="text"
-                  value={title}
-                />
-                <textarea
-                  aria-label="Beschrijving checklist"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
-                  onChange={(event) => setDescription(event.target.value)}
-                  placeholder="Beschrijving (optioneel)"
-                  rows={2}
-                  value={description}
-                />
-                <div className="mt-1 flex flex-row items-center gap-2">
-                  <button
-                    className="rounded-lg bg-emerald-800 px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-200"
-                    type="submit"
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-200"
-                    onClick={() => {
-                      setTitle(note.title);
-                      setDescription(note.description);
-                      setIsEditing(false);
-                    }}
-                    type="button"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </form>
+            <ChecklistEditForm
+              note={note}
+              onCancel={() => setIsEditing(false)}
+              onSave={saveChanges}
+            />
           ) : (
             <p className="wrap-break-word text-lg font-bold text-slate-900">
               {note.title}
             </p>
           )}
         </div>
-        {/* Je hebt wat nederlands tekst :P de UI-tekst is Engels ("Delete") maar de aria-labels zijn Nederlands ("Verwijder"). Kies een taal(Engels het liefst zoals ik al zei). "Edit" is ook gebruikelijker dan "Change" maar dat is maar een klein punt. */}
-        {/* deze knoppen hebben ook min-h-11 (44px) nodig voor Fase 6. */}
         <div className="flex shrink-0 flex-wrap items-center gap-2">
           {!isEditing && (
             <button
-              className="rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm font-semibold text-emerald-800 transition hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100"
-              onClick={() => {
-                setTitle(note.title);
-                setDescription(note.description);
-                setIsEditing(true);
-              }}
+              className="min-h-11 min-w-11 rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm font-semibold text-emerald-800 transition hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100"
+              onClick={() => setIsEditing(true)}
               type="button"
             >
-              Change
+              Edit
             </button>
           )}
           <button
-            aria-label={`Verwijder ${note.title}`}
-            className="rounded-lg bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 transition hover:bg-rose-100 active:scale-95"
+            aria-label={`Delete ${note.title}`}
+            className="min-h-11 min-w-11 rounded-lg bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 transition hover:bg-rose-100 active:scale-95"
             onClick={() => onDelete(note.id)}
             type="button"
           >
@@ -125,88 +78,22 @@ function ChecklistNoteCard({
           </button>
         </div>
       </div>
-      {/* FIX: beide takken doen hetzelfde: whitespace-pre-wrap werkt ook voor tekst zonder \n. Eén <p> is genoeg. */}
-      {!isEditing &&
-        displayDescription &&
-        (displayDescription.includes("\n") ? (
-          <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-600">
-            {displayDescription}{" "}
-          </p>
-        ) : (
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            {displayDescription}
-          </p>
-        ))}
-      <p className="mt-3 text-xs text-slate-400">{dateString}</p>
-      <form
-        className="mt-4 flex gap-2 rounded-xl bg-slate-50 p-2"
-        onSubmit={(event) => {
-          event.preventDefault();
-          addItem();
-        }}
-      >
-        <input
-          aria-label={`Voeg item toe aan ${note.title}`}
-          className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
-          onChange={(event) => setItemText(event.target.value)}
-          placeholder="New checklist-item"
-          type="text"
-          value={itemText}
-        />
-        <button
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-800 px-4 py-2 text-sm font-bold text-white transition hover:bg-emerald-900"
-          type="submit"
-        >
-          <img
-            alt=""
-            aria-hidden="true"
-            className="size-4 object-contain"
-            src={PlusIcon}
-          />
-          Add
-        </button>
-      </form>
-      <div className="mt-4">
-        <div className="mb-2 flex justify-between text-xs font-bold text-slate-600">
-          <span>Progress</span>
-          <span>
-            {completedItems} / {note.items.length} Done
-          </span>
-        </div>
-        <div
-          aria-label={`${completedItems} van ${note.items.length} items gedaan`}
-          aria-valuemax={note.items.length}
-          aria-valuemin={0}
-          aria-valuenow={completedItems}
-          className="h-2 w-full rounded-full bg-slate-100"
-          role="progressbar"
-        >
-          <div
-            className="h-2 rounded-full bg-lime-400 transition-all"
-            style={{
-              width: note.items.length
-                ? `${(completedItems / note.items.length) * 100}%`
-                : "0%",
-            }}
-          />
-        </div>
-      </div>
-      <ul className="mt-3 divide-y divide-slate-100">
-        {note.items.map((item) => (
-          <ChecklistItemRow
-            item={item}
-            key={item.id}
-            onDelete={() => onDeleteItem(note.id, item.id)}
-            onEdit={(text) => onEditItem(note.id, item.id, text)}
-            onToggle={() => onToggleItem(note.id, item.id)}
-          />
-        ))}
-      </ul>
-      {note.items.length === 0 && (
-        <p className="mt-3 rounded-lg bg-slate-50 px-3 py-4 text-sm text-slate-500">
-          No checklist items yet.
+      {!isEditing && displayDescription && (
+        <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-600">
+          {displayDescription}
         </p>
       )}
+      <p className="mt-3 text-xs text-slate-400">{dateString}</p>
+      <ChecklistItemForm
+        noteTitle={note.title}
+        onAdd={(text) => onAddItem(note.id, text)}
+      />
+      <ChecklistProgress
+        items={note.items}
+        onDeleteItem={(itemId) => onDeleteItem(note.id, itemId)}
+        onEditItem={(itemId, text) => onEditItem(note.id, itemId, text)}
+        onToggleItem={(itemId) => onToggleItem(note.id, itemId)}
+      />
     </article>
   );
 }

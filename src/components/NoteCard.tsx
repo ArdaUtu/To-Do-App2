@@ -1,4 +1,14 @@
-import type { NoteCardProps } from "../types";
+import type { Note, NoteUpdate } from "../types";
+
+interface NoteCardProps {
+  note: Note;
+  onDelete: (noteId: string) => void;
+  onUpdateNote: (noteId: string, updates: NoteUpdate) => void;
+  onAddItem: (noteId: string, text: string) => void;
+  onToggleItem: (noteId: string, itemId: string) => void;
+  onDeleteItem: (noteId: string, itemId: string) => void;
+  onEditItem: (noteId: string, itemId: string, text: string) => void;
+}
 import ChecklistNoteCard from "./ChecklistNoteCard";
 import TextNoteCard from "./TextNoteCard";
 
@@ -11,7 +21,6 @@ function NoteCard({
   onEditItem,
   onUpdateNote,
 }: NoteCardProps) {
-  // goed gebruik van de discriminated union. Hover over "note" binnen deze if en eronder: TS weet precies welk type het is.
   if (note.type === "checklist") {
     return (
       <ChecklistNoteCard
@@ -21,17 +30,16 @@ function NoteCard({
         onToggleItem={onToggleItem}
         onDeleteItem={onDeleteItem}
         onEditItem={onEditItem}
-        onUpdate={(noteId, updates) => onUpdateNote(noteId, updates)}
+        onUpdate={onUpdateNote}
       />
     );
   }
 
-  // review deze lijn, de arrow-functies eromheen zijn niet nodig: onUpdate={onUpdateNote} werkt direct (hier en bij de checklist-return).
   return (
     <TextNoteCard
       note={note}
       onDelete={onDelete}
-      onUpdate={(noteId, updates) => onUpdateNote(noteId, updates)}
+      onUpdate={onUpdateNote}
     />
   );
 }
