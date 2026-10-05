@@ -1,3 +1,4 @@
+// dit bestand bevat alleen uitgecommente code van een ander project (react-router is niet eens geïnstalleerd). Verwijder het git bewaart de geschiedenis.
 /*
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
