@@ -1,6 +1,6 @@
-import type { AddNoteFormProps, NoteType } from '../types';
-import React from 'react';
-import PlusIcon from '../images/Plus.png';
+import React from "react";
+import PlusIcon from "../images/Plus.png";
+import type { AddNoteFormProps, NoteType } from "../types";
 
 function AddNoteForm({
   title,
@@ -14,12 +14,12 @@ function AddNoteForm({
   onNoteTypeChange,
   onAdd,
 }: AddNoteFormProps) {
-
+  // dit voorkomt dat Enter de notitie toevoegt. Gebruikers verwachten meestal dat Enter verstuurt. Is dit bewust? Zorg dat je kunt uitleggen waarom.
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-  }
-};
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
 
   return (
     <form
@@ -29,7 +29,8 @@ function AddNoteForm({
         onAdd();
       }}
     >
-      {noteType === 'text' && (
+      {/* deze lange input-class staat er 4x. Zet hem in een const inputClass bovenaan, dan is een stijlwijziging ook een aanpassing in plaats van 4 keer hetzelfde te typen. */}
+      {noteType === "text" && (
         <input
           aria-label="Note title"
           className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 sm:col-span-2"
@@ -41,7 +42,8 @@ function AddNoteForm({
         />
       )}
 
-      {noteType === 'checklist' && (
+      {/* FIX: een titel is een regel, dus gebruik een <input> zoals bij de tekstnotitie. Dan kun je een titelveld voor beide types tonen. */}
+      {noteType === "checklist" && (
         <textarea
           aria-label="Title checklist"
           className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 sm:col-span-2"
@@ -52,7 +54,7 @@ function AddNoteForm({
         />
       )}
 
-      {noteType === 'checklist' && (
+      {noteType === "checklist" && (
         <textarea
           aria-label="Checklist description"
           className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 sm:col-span-2"
@@ -63,7 +65,7 @@ function AddNoteForm({
         />
       )}
 
-      {noteType === 'text' && (
+      {noteType === "text" && (
         <textarea
           aria-label="Text of the note"
           className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 sm:col-span-2"
@@ -74,6 +76,8 @@ function AddNoteForm({
         />
       )}
 
+      {/* zet deze select bovenaan: "kies type, vul titel in" is de logische volgorde. Denk aan eindgebruikeer en de verwachtingen die hierbij horen. */}
+      {/* "as NoteType" zet de typecontrole uit. Veiliger: value === 'checklist' ? 'checklist' : 'text'. */}
       <select
         aria-label="Note type"
         className="w-full rounded-lg border border-slate-200 bg-white px-3 py-3 font-medium text-slate-700 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
@@ -87,11 +91,21 @@ function AddNoteForm({
         className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-800 px-6 py-3 font-bold text-white shadow-sm transition hover:bg-emerald-900 active:scale-[0.98]"
         type="submit"
       >
-        <img alt="" aria-hidden="true" className="size-4 object-contain" src={PlusIcon} />
+        <img
+          alt=""
+          aria-hidden="true"
+          className="size-4 object-contain"
+          src={PlusIcon}
+        />
         Add
       </button>
       {errorMessage && (
-        <p className="flex items-start text-sm font-semibold text-rose-700 sm:col-span-2" role="alert">{errorMessage}</p>
+        <p
+          className="flex items-start text-sm font-semibold text-rose-700 sm:col-span-2"
+          role="alert"
+        >
+          {errorMessage}
+        </p>
       )}
     </form>
   );
