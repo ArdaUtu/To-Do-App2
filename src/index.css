@@ -1,3 +1,1 @@
-/*index.css mag alleen @import "tailwindcss" bevatten. Roboto wordt toch nergens gebruikt, misschien ben je dit vergeten? */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 @import "tailwindcss";
