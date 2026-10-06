@@ -1,6 +1,6 @@
 import PlusIcon from "../images/Plus.png";
 import { useState } from "react";
-import type { NoteDraft, NoteType } from "../types";
+import type { NoteDraft, NoteType } from "../Types/types";
 
 interface AddNoteFormProps {
   onAdd: (note: NoteDraft) => void;

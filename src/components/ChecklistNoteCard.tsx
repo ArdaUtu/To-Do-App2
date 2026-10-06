@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TrashIcon from "../images/Trash.png";
-import type { ChecklistNote, NoteUpdate } from "../types";
+import type { ChecklistNote, NoteUpdate } from "../Types/types";
 import ChecklistEditForm from "./ChecklistEditForm";
 import ChecklistItemForm from "./ChecklistItemForm";
 import ChecklistProgress from "./ChecklistProgress";
@@ -79,7 +79,7 @@ function ChecklistNoteCard({
         </div>
       </div>
       {!isEditing && displayDescription && (
-        <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-600">
+        <p className="mt-2 whitespace-pre-wrap wrap-break-word text-sm leading-6 text-slate-600">
           {displayDescription}
         </p>
       )}
