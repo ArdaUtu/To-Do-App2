@@ -1,6 +1,6 @@
 import AddNoteForm from "./components/AddNoteForm";
 import NoteList from "./components/NoteList";
-import { useNotes } from "./useNotes";
+import { useNotes } from "./Types/useNotes";
 
 function App() {
   const {

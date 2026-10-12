@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { ChecklistNote } from "../types";
+import type { ChecklistNote } from "../Types/types";
 
 interface ChecklistEditFormProps {
   note: ChecklistNote;
