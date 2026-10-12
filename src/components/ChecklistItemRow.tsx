@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TrashIcon from "../images/Trash.png";
-import type { ChecklistItem } from "../Types/types";
+import type { ChecklistItem } from "../types";
 
 interface ChecklistItemRowProps {
   item: ChecklistItem;

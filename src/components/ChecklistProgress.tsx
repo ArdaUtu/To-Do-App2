@@ -1,4 +1,4 @@
-import type { ChecklistItem } from "../Types/types";
+import type { ChecklistItem } from "../types";
 import ChecklistItemRow from "./ChecklistItemRow";
 
 interface ChecklistProgressProps {

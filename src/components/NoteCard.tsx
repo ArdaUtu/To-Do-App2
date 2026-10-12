@@ -1,4 +1,4 @@
-import type { Note, NoteUpdate } from "../Types/types";
+import type { Note, NoteUpdate } from "../types";
 
 interface NoteCardProps {
   note: Note;

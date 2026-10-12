@@ -1,4 +1,4 @@
-import type { Note, NoteUpdate } from "../Types/types";
+import type { Note, NoteUpdate } from "../types";
 import NoteCard from "./NoteCard";
 
 interface NoteListProps {
