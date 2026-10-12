@@ -21,7 +21,7 @@ function App() {
           <h1 className="text-3xl font-extrabold tracking-tight text-emerald-900 sm:text-4xl">
             To-Do-App
           </h1>
-          <p aria-label={`${notes.length} notes`} className="text-sm font-semibold text-emerald-800">
+          <p aria-label={`${notes.length} notes`} className="text-sm font-semibold text-white bg-emerald-900 p-2 rounded-lg shadow-sm shadow-emerald-950/10">
             {notes.length} {notes.length === 1 ? "note" : "notes"}
           </p>
         </header>
