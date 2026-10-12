@@ -1,4 +1,6 @@
 import { useState } from "react";
+import DotsIcon from "../images/Dots.png";
+import EditIcon from "../images/Edit.png";
 import TrashIcon from "../images/Trash.png";
 import type { ChecklistNote, NoteUpdate } from "../Types/types";
 import ChecklistEditForm from "./ChecklistEditForm";
@@ -25,8 +27,17 @@ function ChecklistNoteCard({
   onUpdate,
 }: ChecklistNoteCardProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const displayDescription = note.description.trim();
   const dateString = new Date(note.createdAt).toLocaleString("nl-NL");
+
+  const menuDotsIcon = (
+    <img
+      alt="Options"
+      className="size-4 object-contain opacity-80"
+      src={DotsIcon}
+    />
+  );
 
   const saveChanges = (title: string, description: string) => {
     onUpdate(note.id, { title, description });
@@ -52,34 +63,48 @@ function ChecklistNoteCard({
             </p>
           )}
         </div>
-        <div className="flex shrink-0 flex-wrap items-center gap-2 ">
-          {!isEditing && (
+        {!isEditing && (
+          <div className="relative shrink-0">
             <button
-              className="min-h-11 min-w-11 rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm font-semibold text-emerald-800 transition hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100"
-              onClick={() => setIsEditing(true)}
+              aria-label={`More actions for ${note.title}`}
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-emerald-200 bg-white text-emerald-800 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100"
+              onClick={() => setIsMenuOpen((open) => !open)}
               type="button"
             >
-              Edit
+              {menuDotsIcon}
             </button>
-          )}
-          <button
-            aria-label={`Delete ${note.title}`}
-            className="min-h-11 min-w-11 rounded-lg bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 transition hover:bg-rose-100 active:scale-95"
-            onClick={() => onDelete(note.id)}
-            type="button"
-          >
-            <img
-              alt=""
-              aria-hidden="true"
-              className="mr-1 inline-block size-4 object-contain align-middle"
-              src={TrashIcon}
-            />
-            Delete
-          </button>
-        </div>
+
+            {isMenuOpen && (
+              <div className="absolute right-0 z-20 mt-2 w-32 rounded-xl border border-slate-200 bg-white p-1 shadow-lg">
+                <button
+                  className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                  onClick={() => {
+                    setIsEditing(true);
+                    setIsMenuOpen(false);
+                  }}
+                  type="button"
+                >
+                  <img alt="Edit" className="size-4 object-contain" src={EditIcon} />
+                  <span>Edit</span>
+                </button>
+                <button
+                  className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm font-semibold text-rose-700 transition hover:bg-rose-50"
+                  onClick={() => {
+                    onDelete(note.id);
+                    setIsMenuOpen(false);
+                  }}
+                  type="button"
+                >
+                  <img alt="Delete" className="size-4 object-contain" src={TrashIcon} />
+                  <span>Delete</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       {!isEditing && displayDescription && (
-        <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-600">
+        <p className="mt-2 wrap-break-word whitespace-pre-wrap text-sm leading-6 text-slate-600">
           {displayDescription}
         </p>
       )}
