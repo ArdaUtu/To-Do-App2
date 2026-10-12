@@ -33,10 +33,10 @@ function ChecklistItemForm({ noteTitle, onAdd }: ChecklistItemFormProps) {
         value={text}
       />
       <button
-        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-emerald-800 px-4 py-2 text-sm font-bold text-white transition hover:bg-emerald-900"
+        className="inline-flex min-h-5 items-center justify-center gap-2 rounded-lg bg-emerald-800 px-4 py-2 text-sm font-bold text-white transition hover:bg-emerald-900"
         type="submit"
       >
-        <img alt="" aria-hidden="true" className="size-4 object-contain" src={PlusIcon} />
+        <img alt="" aria-hidden="true" className="size-8 object-contain" src={PlusIcon} />
         Add
       </button>
     </form>

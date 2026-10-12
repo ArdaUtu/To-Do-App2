@@ -98,7 +98,7 @@ function AddNoteForm({ onAdd }: AddNoteFormProps) {
         <img
           alt=""
           aria-hidden="true"
-          className="size-4 object-contain"
+          className="size-8 object-contain"
           src={PlusIcon}
         />
         Add
