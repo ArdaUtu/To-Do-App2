@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DotsIcon from "../images/Dots.png";
 import EditIcon from "../images/Edit.png";
 import TrashIcon from "../images/Trash.png";
 import type { ChecklistNote, NoteUpdate } from "../Types/types";
+import useClickOutside from "../hooks/useClickOutside";
 import ChecklistEditForm from "./ChecklistEditForm";
 import ChecklistItemForm from "./ChecklistItemForm";
 import ChecklistProgress from "./ChecklistProgress";
@@ -28,8 +29,11 @@ function ChecklistNoteCard({
 }: ChecklistNoteCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const displayDescription = note.description.trim();
   const dateString = new Date(note.createdAt).toLocaleString("nl-NL");
+
+  useClickOutside(menuRef, () => setIsMenuOpen(false), isMenuOpen);
 
   const menuDotsIcon = (
     <img
@@ -64,7 +68,7 @@ function ChecklistNoteCard({
           )}
         </div>
         {!isEditing && (
-          <div className="relative shrink-0">
+          <div className="relative shrink-0" ref={menuRef}>
             <button
               aria-label={`More actions for ${note.title}`}
               className="flex h-8 w-8 items-center justify-center rounded-md border border-emerald-200 bg-white text-emerald-800 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100"

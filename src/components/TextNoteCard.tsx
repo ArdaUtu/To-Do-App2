@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DotsIcon from "../images/Dots.png";
 import EditIcon from "../images/Edit.png";
 import TrashIcon from "../images/Trash.png";
 import type { NoteUpdate, TextNote } from "../Types/types";
+import useClickOutside from "../hooks/useClickOutside";
 
 interface TextNoteCardProps {
   note: TextNote;
@@ -16,7 +17,10 @@ function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const menuRef = useRef<HTMLDivElement>(null);
   const dateString = new Date(note.createdAt).toLocaleString("nl-NL");
+
+  useClickOutside(menuRef, () => setIsMenuOpen(false), isMenuOpen);
 
   const menuDotsIcon = (
     <img
@@ -50,7 +54,7 @@ function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
       <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
         <p className="text-xs font-bold uppercase tracking-widest text-sky-700">Text note</p>
         {!isEditing && (
-          <div className="relative shrink-0">
+          <div className="relative shrink-0" ref={menuRef}>
             <button
               aria-label={`More actions for ${note.title}`}
               className="flex h-8 w-8 items-center justify-center rounded-md border border-sky-200 bg-white text-sky-800 shadow-sm transition hover:border-sky-300 hover:bg-sky-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-sky-100"
