@@ -4,6 +4,7 @@ import EditIcon from "../images/Edit.png";
 import TrashIcon from "../images/Trash.png";
 import type { NoteUpdate, TextNote } from "../Types/types";
 import useClickOutside from "../hooks/useClickOutside";
+import TextNoteEditForm from "./TextNoteEditForm";
 
 interface TextNoteCardProps {
   note: TextNote;
@@ -122,26 +123,14 @@ function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
                 {errorMessage}
               </p>
             )}
-            <div className="mt-1 flex flex-row items-center gap-2">
-              <button
-                className="min-h-11 min-w-11 rounded-lg bg-emerald-800 px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-200"
-                type="submit"
-              >
-                Save
-              </button>
-              <button
-                className="min-h-11 min-w-11 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-200"
-                onClick={() => {
-                  setTitle(note.title);
-                  setBody(note.body);
-                  setErrorMessage("");
-                  setIsEditing(false);
-                }}
-                type="button"
-              >
-                Cancel
-              </button>
-            </div>
+            <TextNoteEditForm
+              onCancel={() => {
+                setTitle(note.title);
+                setBody(note.body);
+                setErrorMessage("");
+                setIsEditing(false);
+              }}
+            />
           </form>
         ) : (
           <>
