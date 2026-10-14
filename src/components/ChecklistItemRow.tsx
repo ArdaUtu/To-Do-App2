@@ -1,5 +1,4 @@
 import { useState } from "react";
-import DotsIcon from "../images/Dots.png";
 import EditIcon from "../images/Edit.png";
 import TrashIcon from "../images/Trash.png";
 import type { ChecklistItem } from "../Types/types";
@@ -18,17 +17,8 @@ function ChecklistItemRow({
   onEdit,
 }: ChecklistItemRowProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [text, setText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  const menuDotsIcon = (
-    <img
-      alt="Options"
-      className="size-4 object-contain opacity-80"
-      src={DotsIcon}
-    />
-  );
 
   const startEditing = () => {
     setText(item.text);
@@ -114,42 +104,25 @@ function ChecklistItemRow({
           >
             {item.text}
           </span>
-          <div className="relative ml-auto">
+          <div className="ml-auto flex shrink-0 items-center gap-1">
             <button
-              aria-label={`More actions for ${item.text}`}
+              aria-label={`Edit ${item.text}`}
               className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-200"
-              onClick={() => setIsMenuOpen((open) => !open)}
+              onClick={startEditing}
+              title="Edit"
               type="button"
             >
-              {menuDotsIcon}
+              <img alt="" className="size-4 object-contain" src={EditIcon} />
             </button>
-
-            {isMenuOpen && (
-              <div className="absolute right-0 z-20 mt-2 w-32 rounded-xl border border-slate-200 bg-white p-1 shadow-lg">
-                <button
-                  className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
-                  onClick={() => {
-                    startEditing();
-                    setIsMenuOpen(false);
-                  }}
-                  type="button"
-                >
-                  <img alt="Edit" className="size-4 object-contain" src={EditIcon} />
-                  <span>Edit</span>
-                </button>
-                <button
-                  className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm font-semibold text-rose-700 transition hover:bg-rose-50"
-                  onClick={() => {
-                    onDelete();
-                    setIsMenuOpen(false);
-                  }}
-                  type="button"
-                >
-                  <img alt="Delete" className="size-4 object-contain" src={TrashIcon} />
-                  <span>Delete</span>
-                </button>
-              </div>
-            )}
+            <button
+              aria-label={`Delete ${item.text}`}
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-rose-700 shadow-sm transition hover:border-rose-200 hover:bg-rose-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-rose-100"
+              onClick={onDelete}
+              title="Delete"
+              type="button"
+            >
+              <img alt="" className="size-4 object-contain" src={TrashIcon} />
+            </button>
           </div>
         </>
       )}
