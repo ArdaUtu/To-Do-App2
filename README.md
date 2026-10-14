@@ -1,92 +1,97 @@
-<!-- Fase 6 vraagt: hoe start je de app (npm install, npm run dev), de componentboom en wat je het lastigst vond. Haal de Vite-templatetekst hieronder weg. Let op: de boom zegt dat App de state bezit, maar nu doet Nodefunctions dat. -->
+# To-Do App
 
-# React + TypeScript + Vite
+Een kleine React-applicatie voor het maken, bewerken en beheren van notities en checklists. De app maakt het eenvoudig om taken te volgen, tekstnotities aan te maken en checklist-items te markeren als afgerond.
 
-## Componentstructuur
+## Functionaliteiten
 
-De app houdt de notities en alle wijzigingen bij in `App`:
+- Tekstnotities aanmaken en verwijderen
+- Checklist-notities met optionele beschrijving
+- Checklist-items toevoegen, bewerken, aan/uitvinken en verwijderen
+- Notitie-titels en inhoud aanpassen
+- Responsieve interface met moderne UI
+- Gebouwd met React + TypeScript + Vite
+
+## Tech Stack
+
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+
+## Voorbeeld van de structuur
 
 ```text
-App (bezit Note[] en callbacks)
-├── AddNoteForm (maakt een nieuwe tekst- of checklistnotitie)
-└── NoteList (ontvangt notes)
-  └── NoteCard (kiest op basis van note.type)
-    ├── TextNoteCard
-    └── ChecklistNoteCard
-      └── ChecklistItemRow
+src/
+├── App.tsx
+├── components/
+│   ├── AddNoteForm.tsx
+│   ├── ChecklistEditForm.tsx
+│   ├── ChecklistItemForm.tsx
+│   ├── ChecklistItemRow.tsx
+│   ├── ChecklistNoteCard.tsx
+│   ├── ChecklistProgress.tsx
+│   ├── NoteCard.tsx
+│   ├── NoteList.tsx
+│   ├── TextNoteCard.tsx
+│   └── TextNoteEditForm.tsx
+├── hooks/
+│   └── useClickOutside.ts
+├── images/
+├── Types/
+│   ├── noteUtils.ts
+│   ├── types.ts
+│   └── useNotes.ts
+└── main.tsx
 ```
 
-`NoteList` en de kaartcomponenten wijzigen de lijst niet zelf. Ze ontvangen data
-via props en melden acties terug via `onDelete` en `onToggleItem`.
+## Installatie
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Zorg eerst dat je Node.js en npm hebt geïnstalleerd.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Uitvoeren in development modus
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
-
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm run dev
 ```
+
+Dan open je je browser op:
+
+```text
+http://localhost:5173
+```
+
+## Build
+
+Voor een productiebuild:
+
+```bash
+npm run build
+```
+
+Om de productiebuild lokaal te bekijken:
+
+```bash
+npm run preview
+```
+
+## Linting
+
+```bash
+npm run lint
+```
+
+## Gebruik
+
+1. Kies een notietype: tekst of checklist.
+2. Vul een titel in en een inhoud of beschrijving.
+3. Klik op "Add" om de notitie toe te voegen.
+4. Bewerk of verwijder notities via de kaartacties.
+5. Voor checklist-items kun je deze aanvinken, bewerken of verwijderen.
+
+## Opmerking
+
+Deze app gebruikt lokaal state in React en bewaart de notities niet automatisch in de browser's localStorage. Als je wilt, kan ik hier ook nog een versie mee maken waarbij de notities blijven staan na een refresh.
