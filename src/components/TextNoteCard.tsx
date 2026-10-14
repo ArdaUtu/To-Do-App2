@@ -15,9 +15,6 @@ interface TextNoteCardProps {
 function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const menuRef = useRef<HTMLDivElement>(null);
   const dateString = new Date(note.createdAt).toLocaleString("nl-NL");
 
@@ -32,21 +29,11 @@ function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
   );
 
   const startEditing = () => {
-    setTitle(note.title);
-    setBody(note.body);
-    setErrorMessage("");
     setIsEditing(true);
   };
 
-  const saveChanges = () => {
-    const trimmedTitle = title.trim();
-    const trimmedBody = body.trim();
-    if (!trimmedTitle || !trimmedBody) {
-      setErrorMessage("Enter a title and note text first.");
-      return;
-    }
-
-    onUpdate(note.id, { title: trimmedTitle, body: trimmedBody });
+  const saveChanges = (title: string, body: string) => {
+    onUpdate(note.id, { title, body });
     setIsEditing(false);
   };
 
@@ -96,42 +83,11 @@ function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
       </div>
       <div className="min-w-0 flex-1">
         {isEditing ? (
-          <form
-            className="flex flex-col gap-3"
-            onSubmit={(event) => {
-              event.preventDefault();
-              saveChanges();
-            }}
-          >
-            <input
-              aria-label="Note title"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
-              onChange={(event) => setTitle(event.target.value)}
-              type="text"
-              value={title}
-            />
-
-            <textarea
-              aria-label="Note text"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
-              onChange={(event) => setBody(event.target.value)}
-              rows={3}
-              value={body}
-            />
-            {errorMessage && (
-              <p className="text-sm font-semibold text-rose-700" role="alert">
-                {errorMessage}
-              </p>
-            )}
-            <TextNoteEditForm
-              onCancel={() => {
-                setTitle(note.title);
-                setBody(note.body);
-                setErrorMessage("");
-                setIsEditing(false);
-              }}
-            />
-          </form>
+          <TextNoteEditForm
+            note={note}
+            onSave={saveChanges}
+            onCancel={() => setIsEditing(false)}
+          />
         ) : (
           <>
             <p className="wrap-break-word text-lg font-bold text-slate-900">
