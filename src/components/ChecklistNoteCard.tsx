@@ -109,15 +109,15 @@ function ChecklistNoteCard({
         </p>
       )}
       <p className="mt-3 text-xs text-slate-400">{dateString}</p>
-      <ChecklistItemForm
-        noteTitle={note.title}
-        onAdd={(text) => onAddItem(note.id, text)}
-      />
       <ChecklistProgress
         items={note.items}
         onDeleteItem={(itemId) => onDeleteItem(note.id, itemId)}
         onEditItem={(itemId, text) => onEditItem(note.id, itemId, text)}
         onToggleItem={(itemId) => onToggleItem(note.id, itemId)}
+      />
+      <ChecklistItemForm
+        noteTitle={note.title}
+        onAdd={(text) => onAddItem(note.id, text)}
       />
     </article>
   );
