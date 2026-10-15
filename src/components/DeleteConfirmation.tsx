@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEscapeKey } from "../hooks/useClickOutside";
 
 interface DeleteConfirmationProps {
   itemLabel: string;
@@ -11,14 +11,7 @@ function DeleteConfirmation({
   onCancel,
   onConfirm,
 }: DeleteConfirmationProps) {
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onCancel();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onCancel]);
+  useEscapeKey(onCancel);
 
   return (
     <div
