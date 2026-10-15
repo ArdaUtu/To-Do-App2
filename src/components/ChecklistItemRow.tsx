@@ -2,6 +2,7 @@ import { useState } from "react";
 import EditIcon from "../images/Edit.png";
 import TrashIcon from "../images/Trash.png";
 import type { ChecklistItem } from "../Types/types";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 interface ChecklistItemRowProps {
   item: ChecklistItem;
@@ -17,6 +18,7 @@ function ChecklistItemRow({
   onEdit,
 }: ChecklistItemRowProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
   const [text, setText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -117,7 +119,7 @@ function ChecklistItemRow({
             <button
               aria-label={`Delete ${item.text}`}
               className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-rose-700 shadow-sm transition hover:border-rose-200 hover:bg-rose-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-rose-100"
-              onClick={onDelete}
+              onClick={() => setIsDeleteConfirmationOpen(true)}
               title="Delete"
               type="button"
             >
@@ -125,6 +127,13 @@ function ChecklistItemRow({
             </button>
           </div>
         </>
+      )}
+      {isDeleteConfirmationOpen && (
+        <DeleteConfirmation
+          itemLabel={item.text}
+          onCancel={() => setIsDeleteConfirmationOpen(false)}
+          onConfirm={onDelete}
+        />
       )}
     </li>
   );
