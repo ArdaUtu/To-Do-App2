@@ -1,6 +1,6 @@
-import PlusIcon from "../images/Plus.png";
 import { useState } from "react";
 import type { NoteDraft, NoteType } from "../Types/types";
+import AddButton from "./buttons/AddButton";
 
 interface AddNoteFormProps {
   onAdd: (note: NoteDraft) => void;
@@ -91,18 +91,7 @@ function AddNoteForm({ onAdd }: AddNoteFormProps) {
         />
       )}
 
-      <button
-        className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-800 px-6 py-3 font-bold text-white shadow-sm transition hover:bg-emerald-900 active:scale-[0.98]"
-        type="submit"
-      >
-        <img
-          alt=""
-          aria-hidden="true"
-          className="size-8 object-contain"
-          src={PlusIcon}
-        />
-        Add
-      </button>
+      <AddButton className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-800 px-6 py-3 font-bold text-white shadow-sm transition hover:bg-emerald-900 active:scale-[0.98]" />
       {errorMessage && (
         <p
           className="flex items-start text-sm font-semibold text-rose-700 sm:col-span-2"

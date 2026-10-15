@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
-import DotsIcon from "../images/Dots.png";
-import EditIcon from "../images/Edit.png";
-import TrashIcon from "../images/Trash.png";
 import type { ChecklistNote, NoteUpdate } from "../Types/types";
 import useClickOutside from "../hooks/useClickOutside";
 import ChecklistEditForm from "./ChecklistEditForm";
 import ChecklistItemForm from "./ChecklistItemForm";
 import ChecklistProgress from "./ChecklistProgress";
 import DeleteConfirmation from "./DeleteConfirmation";
+import DeleteButton from "./buttons/DeleteButton";
+import DotsButton from "./buttons/DotsButton";
+import EditButton from "./buttons/EditButton";
 
 interface ChecklistNoteCardProps {
   note: ChecklistNote;
@@ -37,14 +37,6 @@ function ChecklistNoteCard({
 
   useClickOutside(menuRef, () => setIsMenuOpen(false), isMenuOpen);
 
-  const menuDotsIcon = (
-    <img
-      alt="Options"
-      className="size-4 object-contain opacity-80"
-      src={DotsIcon}
-    />
-  );
-
   const saveChanges = (title: string, description: string) => {
     onUpdate(note.id, { title, description });
     setIsEditing(false);
@@ -71,39 +63,28 @@ function ChecklistNoteCard({
         </div>
         {!isEditing && (
           <div className="relative shrink-0" ref={menuRef}>
-            <button
-              aria-label={`More actions for ${note.title}`}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-emerald-200 bg-white text-emerald-800 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100"
+            <DotsButton
+              isExpanded={isMenuOpen}
+              noteTitle={note.title}
               onClick={() => setIsMenuOpen((open) => !open)}
-              type="button"
-            >
-              {menuDotsIcon}
-            </button>
-
+              variant="checklist"
+            />
             {isMenuOpen && (
               <div className="absolute right-0 z-20 mt-2 w-32 rounded-xl border border-slate-200 bg-white p-1 shadow-lg">
-                <button
-                  className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                <EditButton
                   onClick={() => {
+                    setIsMenuOpen(false);
                     setIsEditing(true);
-                    setIsMenuOpen(false);
                   }}
-                  type="button"
-                >
-                  <img alt="Edit" className="size-4 object-contain" src={EditIcon} />
-                  <span>Edit</span>
-                </button>
-                <button
-                  className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm font-semibold text-rose-700 transition hover:bg-rose-50"
+                  variant="menu"
+                />
+                <DeleteButton
                   onClick={() => {
-                    setIsDeleteConfirmationOpen(true);
                     setIsMenuOpen(false);
+                    setIsDeleteConfirmationOpen(true);
                   }}
-                  type="button"
-                >
-                  <img alt="Delete" className="size-4 object-contain" src={TrashIcon} />
-                  <span>Delete</span>
-                </button>
+                  variant="menu"
+                />
               </div>
             )}
           </div>

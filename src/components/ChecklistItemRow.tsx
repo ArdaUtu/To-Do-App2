@@ -1,8 +1,8 @@
 import { useState } from "react";
-import EditIcon from "../images/Edit.png";
-import TrashIcon from "../images/Trash.png";
 import type { ChecklistItem } from "../Types/types";
 import DeleteConfirmation from "./DeleteConfirmation";
+import DeleteButton from "./buttons/DeleteButton";
+import EditButton from "./buttons/EditButton";
 
 interface ChecklistItemRowProps {
   item: ChecklistItem;
@@ -107,24 +107,12 @@ function ChecklistItemRow({
             {item.text}
           </span>
           <div className="ml-auto flex shrink-0 items-center gap-1">
-            <button
-              aria-label={`Edit ${item.text}`}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-200"
-              onClick={startEditing}
-              title="Edit"
-              type="button"
-            >
-              <img alt="" className="size-4 object-contain" src={EditIcon} />
-            </button>
-            <button
-              aria-label={`Delete ${item.text}`}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-rose-700 shadow-sm transition hover:border-rose-200 hover:bg-rose-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-rose-100"
+            <EditButton ariaLabel={`Edit ${item.text}`} onClick={startEditing} variant="icon" />
+            <DeleteButton
+              ariaLabel={`Delete ${item.text}`}
               onClick={() => setIsDeleteConfirmationOpen(true)}
-              title="Delete"
-              type="button"
-            >
-              <img alt="" className="size-4 object-contain" src={TrashIcon} />
-            </button>
+              variant="icon"
+            />
           </div>
         </>
       )}
