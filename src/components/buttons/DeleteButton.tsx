@@ -1,10 +1,5 @@
+import type { DeleteButtonProps } from "../../Types/types";
 import TrashIcon from "../icons/TrashIcon";
-
-interface DeleteButtonProps {
-  onClick: () => void;
-  variant: "icon" | "menu";
-  ariaLabel?: string;
-}
 
 function DeleteButton({ onClick, variant, ariaLabel }: DeleteButtonProps) {
   if (variant === "menu") {

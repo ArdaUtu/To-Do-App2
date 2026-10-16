@@ -34,3 +34,34 @@ export type NoteUpdate = {
 	body?: string;
 	description?: string;
 };
+
+export type AddButtonProps = {
+	variant: "note" | "checklistItem";
+};
+
+export type EditButtonProps = {
+	onClick: () => void;
+	variant: "icon";
+	ariaLabel: string;
+} | {
+	onClick: () => void;
+	variant: "menu";
+	ariaLabel?: never;
+};
+
+export type DeleteButtonProps = {
+	onClick: () => void;
+	variant: "icon";
+	ariaLabel: string;
+} | {
+	onClick: () => void;
+	variant: "menu";
+	ariaLabel?: never;
+};
+
+export type DotsButtonProps = {
+	noteTitle: string;
+	variant: "checklist" | "text";
+	isExpanded: boolean;
+	onClick: () => void;
+};

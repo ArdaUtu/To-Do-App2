@@ -32,7 +32,7 @@ function ChecklistItemForm({ noteTitle, onAdd }: ChecklistItemFormProps) {
         type="text"
         value={text}
       />
-      <AddButton className="inline-flex min-h-5 items-center justify-center gap-2 rounded-lg bg-emerald-800 px-4 py-2 text-sm font-bold text-white transition hover:bg-emerald-900" />
+      <AddButton variant="checklistItem" />
     </form>
   );
 }

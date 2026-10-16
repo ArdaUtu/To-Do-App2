@@ -91,7 +91,7 @@ function AddNoteForm({ onAdd }: AddNoteFormProps) {
         />
       )}
 
-      <AddButton className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-800 px-6 py-3 font-bold text-white shadow-sm transition hover:bg-emerald-900 active:scale-[0.98]" />
+      <AddButton variant="note" />
       {errorMessage && (
         <p
           className="flex items-start text-sm font-semibold text-rose-700 sm:col-span-2"

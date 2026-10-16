@@ -1,11 +1,5 @@
+import type { DotsButtonProps } from "../../Types/types";
 import DotsIcon from "../icons/DotsIcon";
-
-interface DotsButtonProps {
-  noteTitle: string;
-  variant: "checklist" | "text";
-  isExpanded: boolean;
-  onClick: () => void;
-}
 
 function DotsButton({ noteTitle, variant, isExpanded, onClick }: DotsButtonProps) {
   const buttonColors =

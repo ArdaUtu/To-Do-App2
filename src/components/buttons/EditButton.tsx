@@ -1,10 +1,5 @@
+import type { EditButtonProps } from "../../Types/types";
 import EditIcon from "../icons/EditIcon";
-
-interface EditButtonProps {
-  onClick: () => void;
-  variant: "icon" | "menu";
-  ariaLabel?: string;
-}
 
 function EditButton({ onClick, variant, ariaLabel }: EditButtonProps) {
   if (variant === "menu") {
