@@ -7,6 +7,7 @@ function EditButton({ onClick, variant, ariaLabel }: EditButtonProps) {
       <button
         className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
         onClick={onClick}
+        role="menuitem"
         type="button"
       >
         <EditIcon className="size-4 object-contain" />

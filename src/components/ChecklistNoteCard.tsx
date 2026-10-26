@@ -1,13 +1,10 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import type { ChecklistNote, NoteUpdate } from "../Types/types";
-import useClickOutside from "../hooks/useClickOutside";
 import ChecklistEditForm from "./ChecklistEditForm";
 import ChecklistItemForm from "./ChecklistItemForm";
 import ChecklistProgress from "./ChecklistProgress";
 import DeleteConfirmation from "./DeleteConfirmation";
-import DeleteButton from "./buttons/DeleteButton";
-import DotsButton from "./buttons/DotsButton";
-import EditButton from "./buttons/EditButton";
+import ActionMenu from "./ActionMenu";
 
 interface ChecklistNoteCardProps {
   note: ChecklistNote;
@@ -29,13 +26,9 @@ function ChecklistNoteCard({
   onUpdate,
 }: ChecklistNoteCardProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
   const displayDescription = note.description.trim();
   const dateString = new Date(note.createdAt).toLocaleString("nl-NL");
-
-  useClickOutside(menuRef, () => setIsMenuOpen(false), isMenuOpen);
 
   const saveChanges = (title: string, description: string) => {
     onUpdate(note.id, { title, description });
@@ -62,32 +55,12 @@ function ChecklistNoteCard({
           )}
         </div>
         {!isEditing && (
-          <div className="relative shrink-0" ref={menuRef}>
-            <DotsButton
-              isExpanded={isMenuOpen}
-              noteTitle={note.title}
-              onClick={() => setIsMenuOpen((open) => !open)}
-              variant="checklist"
-            />
-            {isMenuOpen && (
-              <div className="absolute right-0 z-20 mt-2 w-32 rounded-xl border border-slate-200 bg-white p-1 shadow-lg">
-                <EditButton
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsEditing(true);
-                  }}
-                  variant="menu"
-                />
-                <DeleteButton
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsDeleteConfirmationOpen(true);
-                  }}
-                  variant="menu"
-                />
-              </div>
-            )}
-          </div>
+          <ActionMenu
+            label={note.title}
+            color="emerald"
+            onDelete={() => setIsDeleteConfirmationOpen(true)}
+            onEdit={() => setIsEditing(true)}
+          />
         )}
       </div>
       {!isEditing && displayDescription && (

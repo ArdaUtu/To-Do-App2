@@ -7,6 +7,7 @@ function DeleteButton({ onClick, variant, ariaLabel }: DeleteButtonProps) {
       <button
         className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm font-semibold text-rose-700 transition hover:bg-rose-50"
         onClick={onClick}
+        role="menuitem"
         type="button"
       >
         <TrashIcon className="size-4 object-contain" />

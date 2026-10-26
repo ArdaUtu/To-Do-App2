@@ -1,11 +1,8 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import type { NoteUpdate, TextNote } from "../Types/types";
-import useClickOutside from "../hooks/useClickOutside";
 import DeleteConfirmation from "./DeleteConfirmation";
 import TextNoteEditForm from "./TextNoteEditForm";
-import DeleteButton from "./buttons/DeleteButton";
-import DotsButton from "./buttons/DotsButton";
-import EditButton from "./buttons/EditButton";
+import ActionMenu from "./ActionMenu";
 
 interface TextNoteCardProps {
   note: TextNote;
@@ -15,12 +12,8 @@ interface TextNoteCardProps {
 
 function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
   const dateString = new Date(note.createdAt).toLocaleString("nl-NL");
-
-  useClickOutside(menuRef, () => setIsMenuOpen(false), isMenuOpen);
 
   const startEditing = () => {
     setIsEditing(true);
@@ -36,32 +29,12 @@ function TextNoteCard({ note, onDelete, onUpdate }: TextNoteCardProps) {
       <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
         <p className="text-xs font-bold uppercase tracking-widest text-sky-700">Text note</p>
         {!isEditing && (
-          <div className="relative shrink-0" ref={menuRef}>
-            <DotsButton
-              isExpanded={isMenuOpen}
-              noteTitle={note.title}
-              onClick={() => setIsMenuOpen((open) => !open)}
-              variant="text"
-            />
-            {isMenuOpen && (
-              <div className="absolute right-0 z-20 mt-2 w-32 rounded-xl border border-slate-200 bg-white p-1 shadow-lg">
-                <EditButton
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    startEditing();
-                  }}
-                  variant="menu"
-                />
-                <DeleteButton
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsDeleteConfirmationOpen(true);
-                  }}
-                  variant="menu"
-                />
-              </div>
-            )}
-          </div>
+          <ActionMenu
+            label={note.title}
+            color="sky"
+            onDelete={() => setIsDeleteConfirmationOpen(true)}
+            onEdit={startEditing}
+          />
         )}
       </div>
       <div className="min-w-0 flex-1">

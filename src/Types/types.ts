@@ -61,7 +61,14 @@ export type DeleteButtonProps = {
 
 export type DotsButtonProps = {
 	noteTitle: string;
-	variant: "checklist" | "text";
+	color: "sky" | "emerald";
 	isExpanded: boolean;
 	onClick: () => void;
+};
+
+export type ActionMenuProps = {
+	label: string;
+	color: "sky" | "emerald";
+	onEdit: () => void;
+	onDelete: () => void;
 };
